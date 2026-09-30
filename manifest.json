@@ -1,0 +1,8 @@
+{
+  "name": "Mein Haushaltsplan",
+  "short_name": "Haushalt",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f3f5f8",
+  "theme_color": "#1769e0"
+}
