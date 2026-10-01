@@ -28,7 +28,7 @@ h2{font-size:19px;margin:0 0 13px}.formrow{display:grid;grid-template-columns:1.
 
 <section class="card">
  <div class="label">Kontostand heute</div><div class="big" id="balanceText">0,00 €</div>
- <div class="row"><input id="balance" inputmode="decimal" type="number" step="0.01" placeholder="Aktuellen Kontostand eingeben"><button id="saveBalance">Speichern</button></div>
+ <div class="row"><input id="balance" inputmode="text" type="text" autocomplete="off" placeholder="z. B. -1250,50"><button id="saveBalance">Speichern</button></div>
 </section>
 
 <section class="card">
@@ -83,7 +83,7 @@ function render(){
  $("forecast").innerHTML=a.map(x=>`<div class="month"><b>${label(x.ym)}</b><div class="bar"><div class="fill" style="width:${15+85*(x.b-mn)/r}%"></div></div><div class="money">${EUR.format(x.b)}</div></div>`).join("");
  save()
 }
-$("saveBalance").onclick=()=>{let v=parseFloat($("balance").value);if(Number.isFinite(v)){db.balance=v;render()}};
+$("saveBalance").onclick=()=>{let raw=$("balance").value.trim().replace(/\s/g,"").replace("€","").replace(",",".");let v=Number(raw);if(Number.isFinite(v)){db.balance=v;render()}else{alert("Bitte einen gültigen Kontostand eingeben, z. B. -1250,50.")}};
 $("add").onclick=()=>{let n=$("name").value.trim(),a=parseFloat($("amount").value),m=$("txMonth").value;if(!n||!Number.isFinite(a)||a<0||!m){alert("Bitte Bezeichnung, Betrag und Monat vollständig eingeben.");return}db.tx.push({id:Date.now(),name:n,amount:a,type:$("type").value,repeat:$("repeat").value,month:m});$("name").value="";$("amount").value="";render()};
 $("viewMonth").onchange=render;
 window.delTx=id=>{db.tx=db.tx.filter(t=>t.id!==id);render()};
